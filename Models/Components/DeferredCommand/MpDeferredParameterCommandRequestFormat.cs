@@ -1,5 +1,5 @@
 ﻿namespace MonkeyPaste.Common.Plugin {
-    public class MpPluginDeferredParameterValueRequestFormat : MpPluginRequestFormatBase {
+    public class MpDeferredParameterCommandRequestFormat : MpParameterMessageRequestFormat {
         public string paramId { get; set; }
     }
 }

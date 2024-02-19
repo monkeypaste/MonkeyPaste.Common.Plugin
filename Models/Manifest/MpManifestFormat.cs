@@ -5,23 +5,9 @@ using System.Collections.Generic;
 
 namespace MonkeyPaste.Common.Plugin {
     /// <summary>
-    /// The debug mode for this plugin
+    /// The essential meta-information for <see cref="MpPluginFormat"/>
     /// </summary>
-    public enum MpPluginDebugMode {
-        /// <summary>
-        /// The plugin is considered 'release'
-        /// </summary>
-        None = 0,
-        /// <summary>
-        /// Any symbol files for this plugin will be loaded once a debugger is attached
-        /// </summary>
-        Debug,
-        DebugLocalInputOnly
-    }
-    /// <summary>
-    /// The essential meta-information for <see cref="MpPlugin"/>
-    /// </summary>
-    public class MpManifest {
+    public class MpManifestFormat {
         #region Statics
 
         #endregion
@@ -40,9 +26,9 @@ namespace MonkeyPaste.Common.Plugin {
         /// </summary>
         public string guid { get; set; }
         /// <summary>
-        /// The major, minor, patch version. The default is "1.0.0"
+        /// The major, minor, build, revision info for this plugin. The default is "1.0.0.0". It is only required when publishing your plugin for public use.
         /// </summary>
-        public string version { get; set; } = "1.0.0";
+        public string version { get; set; } = "1.0.0.0";
         /// <summary>
         /// A brief summary of what the plugin does. It cannot be more than 1024 characters.
         /// </summary>
@@ -85,6 +71,10 @@ namespace MonkeyPaste.Common.Plugin {
         /// <b>Note:</b> For best usability this should be an absolute uri
         /// </summary>
         public string iconUri { get; set; }
+        /// <summary>
+        /// The version of MonkeyPaste this plugin was published with
+        /// </summary>
+        public string publishedAppVersion { get; set; }
 
         /// <summary>
         /// The default type is <see cref="MpPluginPackageType.Dll"/>. All other types are currently experimental.
@@ -93,14 +83,14 @@ namespace MonkeyPaste.Common.Plugin {
         public MpPluginPackageType packageType { get; set; } = MpPluginPackageType.Dll;
 
         /// <summary>
-        /// A <see cref="MpManifest"/> can only be one type of plugin. See <see cref="MpPluginType"/> for more info.
+        /// A <see cref="MpManifestFormat"/> can only be one type of plugin. See <see cref="MpPluginType"/> for more info.
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public virtual MpPluginType pluginType { get; set; } = MpPluginType.Analyzer;
         /// <summary>
         /// Any requirements that cannot be included in this plugins bundle to operate
         /// </summary>
-        public List<MpPluginDependency> dependencies { get; set; }
+        public List<MpPluginDependency> dependencies { get; set; } = [];
 
         /// <summary>
         /// When set to <see cref="MpPluginDebugMode.Debug"/>, during startup the application will wait for you to attach a debugger to the main application process, called MonkeyPaste*<br/><br/>

@@ -2,7 +2,7 @@
     /// <summary>
     /// A container for the string representation of a <see cref="MpParameterFormat"/>'s value 
     /// </summary>
-    public class MpPluginParameterValueFormat {
+    public class MpParameterValueFormat {
         /// <summary>
         /// The string representation of the actual value
         /// </summary>
@@ -12,15 +12,15 @@
         /// </summary>
         public string label { get; set; } = string.Empty;
         /// <summary>
-        /// (Default is false) Only relevant for multi-value <see cref="MpParameterFormat"/>'s. Setting <see cref="isDefault"/> to true will mean that this <see cref="MpPluginParameterValueFormat"/> is <b>select by default</b>
+        /// (Default is false) Only relevant for multi-value <see cref="MpParameterFormat"/>'s. Setting <see cref="isDefault"/> to true will mean that this <see cref="MpParameterValueFormat"/> is <b>select by default</b>
         /// </summary>
         public bool isDefault { get; set; } = false;
 
-        public MpPluginParameterValueFormat() { }
-        public MpPluginParameterValueFormat(string val) : this(val, string.Empty, true) { }
-        public MpPluginParameterValueFormat(string val, bool isDefault) : this(val, string.Empty, isDefault) { }
-        public MpPluginParameterValueFormat(string val, string label) : this(val, label, false) { }
-        public MpPluginParameterValueFormat(string val, string label, bool isDefault) {
+        public MpParameterValueFormat() { }
+        public MpParameterValueFormat(string val) : this(val, string.Empty, true) { }
+        public MpParameterValueFormat(string val, bool isDefault) : this(val, string.Empty, isDefault) { }
+        public MpParameterValueFormat(string val, string label) : this(val, label, false) { }
+        public MpParameterValueFormat(string val, string label, bool isDefault) {
             value = val;
             this.label = label;
             this.isDefault = isDefault;

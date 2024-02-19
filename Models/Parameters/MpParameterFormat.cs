@@ -75,7 +75,7 @@ namespace MonkeyPaste.Common.Plugin {
         /// </summary>
         public bool isSharedValue { get; set; }
         /// <summary>
-        /// (Default is false) Allows <see cref="values"/> to be determined at runtime. When true your plugin must implement <see cref="MpISupportDeferredValue"/> or <see cref="MpISupportDeferredValueAsync"/> where you will receive this parameters <see cref="paramId"/> in the <see cref="MpPluginDeferredParameterValueRequestFormat"/> request. 
+        /// (Default is false) Allows <see cref="values"/> to be determined at runtime. When true your plugin must implement <see cref="MpISupportDeferredValue"/> or <see cref="MpISupportDeferredValueAsync"/> where you will receive this parameters <see cref="paramId"/> in the <see cref="MpDeferredParameterValueRequestFormat"/> request. 
         /// </summary>
         public bool isValueDeferred { get; set; }
         /// <summary>
@@ -87,9 +87,9 @@ namespace MonkeyPaste.Common.Plugin {
         /// </summary>
         public bool isReadOnly { get; set; } = false;
         /// <summary>
-        /// (Default is true) When true and value is not provided the parameter form will invalidate before your plugin will receive a request
+        /// (Default is false) When true and value is not provided the parameter form will invalidate before your plugin will receive a request
         /// </summary>
-        public bool isRequired { get; set; } = true;
+        public bool isRequired { get; set; } = false;
         /// <summary>
         ///  (Default is false) Since values are stored (remembered) by default. A Use case for <see cref="canRemember"/> would be when this an <see cref="isExecuteParameter"/> and user may not want store their input for next time.
         /// </summary>
@@ -130,17 +130,17 @@ namespace MonkeyPaste.Common.Plugin {
         /// <summary>
         /// A container for single-value <see cref="controlType"/>'s default string representation <br/><br/><b>Note: </b>Only <see cref="value"/> or <see cref="values"/> can be defined <b>not both</b>.
         /// </summary>
-        public MpPluginParameterValueFormat value { private get; set; }
+        public MpParameterValueFormat value { private get; set; }
 
 
-        private List<MpPluginParameterValueFormat> _values;
+        private List<MpParameterValueFormat> _values;
         /// <summary>
         /// A list of possible default values for this parameter. 
         /// </summary>
-        public List<MpPluginParameterValueFormat> values {
+        public List<MpParameterValueFormat> values {
             get {
                 if (_values == null) {
-                    _values = new List<MpPluginParameterValueFormat>();
+                    _values = new List<MpParameterValueFormat>();
                     if (value != null) {
                         value.isDefault = true;
                         _values.Add(value);

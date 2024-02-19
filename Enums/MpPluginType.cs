@@ -1,6 +1,6 @@
 ﻿namespace MonkeyPaste.Common.Plugin {
     /// <summary>
-    /// The type of <see cref="MpPluginRequestFormatBase"/> request and <see cref="MpPluginResponseFormatBase"/> response this plugin is intended to handle.
+    /// The type of <see cref="MpMessageRequestFormatBase"/> request and <see cref="MpMessageResponseFormatBase"/> response this plugin is intended to handle.
     /// </summary>
     public enum MpPluginType {
         None = 0,

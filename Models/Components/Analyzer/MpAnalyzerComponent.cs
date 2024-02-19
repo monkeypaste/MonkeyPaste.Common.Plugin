@@ -2,6 +2,6 @@
     public class MpAnalyzerComponent : MpIOComponentBase {
         //public new MpHttpAnalyzerTransactionFormat http { get; set; }
     }
-    public class MpAnalyzerPluginRequestFormat : MpPluginParameterRequestFormat { }
-    public class MpAnalyzerPluginResponseFormat : MpPluginResponseFormatBase { }
+    public class MpAnalyzerPluginRequestFormat : MpParameterMessageRequestFormat { }
+    public class MpAnalyzerPluginResponseFormat : MpMessageResponseFormatBase { }
 }

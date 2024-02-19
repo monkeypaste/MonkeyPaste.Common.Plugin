@@ -34,14 +34,14 @@ namespace MonkeyPaste.Common.Plugin {
         public int sortOrderIdx { get; set; }
     }
 
-    public class MpOlePluginRequest : MpPluginParameterRequestFormat {
+    public class MpOlePluginRequest : MpParameterMessageRequestFormat {
         public bool isDnd { get; set; }
         //public IDataObject oleData { get; set; }
         public List<string> formats { get; set; }
         public bool ignoreParams { get; set; }
         public Dictionary<string, object> dataObjectLookup { get; set; }
     }
-    public class MpOlePluginResponse : MpPluginResponseFormatBase {
+    public class MpOlePluginResponse : MpMessageResponseFormatBase {
         //public IDataObject oleData { get; set; }
     }
 }

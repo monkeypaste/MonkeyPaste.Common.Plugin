@@ -10,7 +10,7 @@ namespace MonkeyPaste.Common.Plugin {
     public static class MpPluginExtensions {
         #region Private Variables
 
-        private static Dictionary<Type, Func<MpPluginParameterRequestFormat, string, object>> typeConvLookup = new() {
+        private static Dictionary<Type, Func<MpParameterMessageRequestFormat, string, object>> typeConvLookup = new() {
             {typeof(bool),GetRequestParamBoolValue},
             {typeof(int),GetRequestParamIntValue},
             {typeof(double),GetRequestParamDoubleValue},
@@ -23,10 +23,10 @@ namespace MonkeyPaste.Common.Plugin {
         #region Public Methods
 
         #region Parsers
-        public static string GetParamValue(this MpPluginParameterRequestFormat req, string paramId, string fallback = default) {
+        public static string GetParamValue(this MpParameterMessageRequestFormat req, string paramId, string fallback = default) {
             return GetParamValue<string>(req, paramId, fallback);
         }
-        public static T GetParamValue<T>(this MpPluginParameterRequestFormat req, string paramId, T fallback = default) {
+        public static T GetParamValue<T>(this MpParameterMessageRequestFormat req, string paramId, T fallback = default) {
             object result = null;
             if (typeConvLookup.TryGetValue(typeof(T), out var getter)) {
                 result = getter.Invoke(req, paramId);
@@ -268,33 +268,33 @@ namespace MonkeyPaste.Common.Plugin {
         #region Private Methods
         #region Param Parse Wrappers
 
-        private static object GetRequestParamBoolValue(this MpPluginParameterRequestFormat req, string paramId) {
+        private static object GetRequestParamBoolValue(this MpParameterMessageRequestFormat req, string paramId) {
             var kvp = ValidateGet(req, paramId);
             return kvp.paramValue.ParseOrConvertToBool();
         }
 
-        private static object GetRequestParamIntValue(this MpPluginParameterRequestFormat req, string paramId) {
+        private static object GetRequestParamIntValue(this MpParameterMessageRequestFormat req, string paramId) {
             var kvp = ValidateGet(req, paramId);
             return kvp.paramValue.ParseOrConvertToInt();
         }
 
-        private static object GetRequestParamDoubleValue(this MpPluginParameterRequestFormat req, string paramId) {
+        private static object GetRequestParamDoubleValue(this MpParameterMessageRequestFormat req, string paramId) {
             var kvp = ValidateGet(req, paramId);
             return kvp.paramValue.ParseOrConvertToDouble();
         }
 
-        private static object GetRequestParamStringValue(this MpPluginParameterRequestFormat req, string paramId) {
+        private static object GetRequestParamStringValue(this MpParameterMessageRequestFormat req, string paramId) {
             var kvp = ValidateGet(req, paramId);
             return kvp.paramValue;
         }
 
-        private static object GetRequestParamStringListValue(this MpPluginParameterRequestFormat req, string paramId) {
+        private static object GetRequestParamStringListValue(this MpParameterMessageRequestFormat req, string paramId) {
             var kvp = ValidateGet(req, paramId);
             return kvp.paramValue.ToListFromCsv(MpCsvFormatProperties.DefaultBase64Value);
         }
         #endregion
 
-        private static MpParameterRequestItemFormat ValidateGet(MpPluginParameterRequestFormat req, string paramId) {
+        private static MpParameterRequestItemFormat ValidateGet(MpParameterMessageRequestFormat req, string paramId) {
             if (paramId == null) {
                 throw new NullReferenceException("paramId is null, must have paramValue");
             }

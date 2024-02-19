@@ -1,6 +1,6 @@
 ﻿
 namespace MonkeyPaste.Common.Plugin {
     public class MpHeadlessComponent : MpIOComponentBase { }
-    public class MpHeadlessComponentFormatRequest : MpPluginRequestFormatBase { }
+    public class MpHeadlessComponentFormatRequest : MpMessageRequestFormatBase { }
 
 }

@@ -2,10 +2,10 @@
 
 namespace MonkeyPaste.Common.Plugin {
     public interface MpISupportDeferredValueAsync : MpIPluginComponentBase {
-        Task<MpPluginDeferredParameterValueResponseFormat> RequestParameterValueAsync(MpPluginDeferredParameterValueRequestFormat req);
+        Task<MpDeferredParameterValueResponseFormat> RequestParameterValueAsync(MpDeferredParameterValueRequestFormat req);
     }
 
     public interface MpISupportDeferredValue : MpIPluginComponentBase {
-        MpPluginDeferredParameterValueResponseFormat RequestParameterValue(MpPluginDeferredParameterValueRequestFormat req);
+        MpDeferredParameterValueResponseFormat RequestParameterValue(MpDeferredParameterValueRequestFormat req);
     }
 }

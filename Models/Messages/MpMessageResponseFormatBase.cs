@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace MonkeyPaste.Common.Plugin {
-    public abstract class MpPluginResponseFormatBase : MpPluginMessageFormatBase {
+    public abstract class MpMessageResponseFormatBase : MpMessageFormatBase {
         public string errorMessage { get; set; }
         public string retryMessage { get; set; }
 

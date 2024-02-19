@@ -7,15 +7,15 @@
     <Title>MonkeyPaste.Common.Plugin</Title>
     <Authors>Monkey</Authors>
     <Product>MonkeyPaste</Product>
-    <Description>MonkeyPaste is a cross-platform clipboard automation and productivity tool allowing extensibility byway of a simple client-server plugin interface. This library is the minimum requirement for creating custom plugins for MonkeyPaste.</Description>
-    <PackageProjectUrl>https://www.monkeypaste.com/</PackageProjectUrl>
+    <Description>The minimum requirement to create MonkeyPaste plugins.</Description>
+    <PackageProjectUrl>https://github.com/monkeypaste/MonkeyPaste.Common.Plugin</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageTags>monkeypaste, monkey, clipboard, copy, paste, drag, drop, netstandard, net, plugin, extension</PackageTags>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <LangVersion>$(DefaultLangVersion)</LangVersion>
-    <Version>$(VersionPrefix)1.0.1</Version>
+    <Version>1.0.1.0</Version>
     <!--<GenerateDocumentationFile>true</GenerateDocumentationFile>-->
   </PropertyGroup>
   
@@ -27,6 +27,11 @@
       <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
     </ItemGroup>
   </Target>
+  <ItemGroup>
+    <Compile Remove="Data\DataFormat\**" />
+    <EmbeddedResource Remove="Data\DataFormat\**" />
+    <None Remove="Data\DataFormat\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="icon.png">
