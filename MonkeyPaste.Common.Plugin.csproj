@@ -25,6 +25,11 @@
       <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
     </ItemGroup>
   </Target>
+  <ItemGroup>
+    <Compile Remove="doxygen\**" />
+    <EmbeddedResource Remove="doxygen\**" />
+    <None Remove="doxygen\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="icon.png">
