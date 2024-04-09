@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Platforms>$(DefaultPlatforms)</Platforms>
@@ -10,13 +9,12 @@
     <Description>The minimum requirement to create MonkeyPaste plugins.</Description>
     <PackageProjectUrl>https://github.com/monkeypaste/MonkeyPaste.Common.Plugin</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>monkeypaste, monkey, clipboard, copy, paste, drag, drop, netstandard, net, plugin, extension</PackageTags>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <LangVersion>$(DefaultLangVersion)</LangVersion>
-    <Version>1.0.1.0</Version>
-    <!--<GenerateDocumentationFile>true</GenerateDocumentationFile>-->
+    <Version>1.0.2.0</Version>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -27,11 +25,6 @@
       <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
     </ItemGroup>
   </Target>
-  <ItemGroup>
-    <Compile Remove="Data\DataFormat\**" />
-    <EmbeddedResource Remove="Data\DataFormat\**" />
-    <None Remove="Data\DataFormat\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="icon.png">

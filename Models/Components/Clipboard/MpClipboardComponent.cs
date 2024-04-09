@@ -35,13 +35,13 @@ namespace MonkeyPaste.Common.Plugin {
     }
 
     public class MpOlePluginRequest : MpParameterMessageRequestFormat {
+        [JsonIgnore]
+        public MpIClipboard Clipboard { get; set; }
         public bool isDnd { get; set; }
-        //public IDataObject oleData { get; set; }
         public List<string> formats { get; set; }
         public bool ignoreParams { get; set; }
         public Dictionary<string, object> dataObjectLookup { get; set; }
     }
     public class MpOlePluginResponse : MpMessageResponseFormatBase {
-        //public IDataObject oleData { get; set; }
     }
 }
