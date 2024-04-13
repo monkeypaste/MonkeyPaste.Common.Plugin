@@ -264,65 +264,65 @@ namespace MonkeyPaste.Common.Plugin {
 #if MAC
             AvText;//MacText1;
 #else
-                    WinText;//WinText;
+            WinText;//WinText;
 #endif
 
         public const string Text2 =
 #if WINDOWS
             WinUnicode;
-#elif MAC
+#else
             MacText2;
 #endif
         public const string Text3 =
 #if WINDOWS
             WinOEMText;
-#elif MAC
+#else
             MacText3;
 #endif
 
         public const string Rtf =
 #if WINDOWS
             WinRtf;
-#elif MAC
+#else
             WinRtf;//MacRtf1;
 #endif
         public const string Image =
 #if WINDOWS
             AvImage;//WinImage;
-#elif MAC
+#else
             AvImage;//MacImage1;
 #endif
 
         public const string Image2 =
 #if WINDOWS
             WinBitmap;
-#elif MAC
+#else
             MacImage2;
 #endif
 
         public const string Files =
 #if WINDOWS
             AvFiles;//WinFiles;
-#elif MAC
+#else
             AvFiles;//MacFiles1;
 #endif
         public const string Csv =
 #if WINDOWS
             WinCsv;
-#elif MAC
+#else
             WinCsv;
 #endif
 
         public const string Html =
 #if WINDOWS
             MimeHtml;
-#elif MAC
+#else
             MimeHtml;
 #endif
         public const string Xhtml =
 #if WINDOWS
             WinXhtml;
-#elif MAC
+#else
             WinXhtml;
 #endif
         #endregion
@@ -469,6 +469,40 @@ namespace MonkeyPaste.Common.Plugin {
                 return null;
             }
             return _fileFormats.Contains(found_format);
+        }
+        
+        public static bool? IsFormatStrBase64(string format) {
+            // returns null if unknwon (not found)
+            if(AllFormats.FirstOrDefault(x=>x.ToLowerInvariant() == format.ToLowerInvariant()) is not string found_format) {
+                return null;
+            }
+            if(IsImageFormat(format) is true ||
+                format == CefAsciiUrl) {
+                return true;
+            }
+            return false;
+        }
+        public static string GetDefaultFileExt(string format) {
+            if(IsPlainTextFormat(format) is true) {
+                return "txt";
+            }
+            if (IsHtmlFormat(format) is true) {
+                return "html";
+            }
+            if(IsRtfFormat(format) is true) {
+                return "rtf";
+            }
+            if(IsCsvFormat(format) is true) {
+                return "csv";
+            }
+            if (format == MacImage2) {
+                return "tiff";
+            }
+            if(IsImageFormat(format) is true) {
+                return "png";
+            }
+            // fallback to txt
+            return "txt";
         }
         #endregion
     }

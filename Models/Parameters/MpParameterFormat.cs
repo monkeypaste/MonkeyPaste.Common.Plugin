@@ -126,6 +126,11 @@ namespace MonkeyPaste.Common.Plugin {
         /// (Default is 2) Used when <see cref="controlType"/> is <see cref="MpParameterControlType.Slider"/> and <see cref="unitType"/> is <see cref="MpParameterValueUnitType.Decimal"/> to clamp the values digits after the deciaml place.
         /// </summary>
         public int precision { get; set; } = 2;
+        
+        /// <summary>
+        /// (Default is 1) Used when <see cref="controlType"/> is <see cref="MpParameterControlType.Slider"/> and <see cref="unitType"/> is <see cref="MpParameterValueUnitType.Decimal"/> to clamp the values digits after the deciaml place.
+        /// </summary>
+        public int increment { get; set; } = 1;
 
         /// <summary>
         /// A container for single-value <see cref="controlType"/>'s default string representation <br/><br/><b>Note: </b>Only <see cref="value"/> or <see cref="values"/> can be defined <b>not both</b>.

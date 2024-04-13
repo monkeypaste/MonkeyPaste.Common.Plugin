@@ -40,6 +40,11 @@
         /// </summary>
         Slider,
         /// <summary>
+        /// Like <see cref="Slider"/>, a decimal or integer up/down ticker with default min/max values as 0/1 resepectively
+        /// /// <br/><b>Relevant Properties: </b><see cref="MpParameterFormat.minimum"/>,<see cref="MpParameterFormat.maximum"/>,<see cref="MpParameterFormat.precision"/> and <see cref="MpParameterFormat.unitType"/> and <see cref="MpParameterFormat.increment"/>.
+        /// </summary>
+        NumberTicker,
+        /// <summary>
         /// A single file select dialog providing the file path as the value. Setting the <see cref="MpParameterValueFormat.label"/> will give the button a unique label.
         /// </summary>
         FileChooser,
