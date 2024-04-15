@@ -28,26 +28,34 @@ namespace MonkeyPaste.Common.Plugin {
                                               //#else
                                               //            true;
                                               //#endif
-
+        static bool IsTraceEnabled =>
+            LogFilePath != null && HasInitialized;
         static string LogFilePath { get; set; }
-
+        static bool LogToConsole { get; set; } = true;
         #endregion
 
         #region Public Methods
 
-        public static void Init(string logPath) {
+        public static void Init(object args) {
+            if(args is not object[] argParts ||
+                argParts.Length != 2) {
+                return;
+            }
+
             if (HasInitialized) {
                 return;
             }
             HasInitialized = true;
-            // NOTE on desktop cefnet MUST be initialized before basically anything (any services)
+            // NOTE on desktop cefnet MUST
+            // be initialized before basically anything (any services)
             // or bizarre crashes occur. So cefnet creates a temp platform info to setup its logging
             // and then initializes console w/ temp info so in main startup init has already happened 
 
-            LogFilePath = logPath;
-            IsLogEnabled = logPath != null;
+            LogFilePath = argParts[0] as string;
+            LogToConsole = (bool)argParts[1];
+            IsLogEnabled = LogFilePath != null;
 
-            if (IsLogEnabled) {
+            if (IsTraceEnabled) {
                 if (IsFileInUse(LogFilePath)) {
                     return;
                 }
@@ -65,7 +73,7 @@ namespace MonkeyPaste.Common.Plugin {
                     Trace.AutoFlush = true;
                 }
                 catch (Exception ex) {
-                    WriteTraceLine(@"Error deleting previous log file w/ path: " + LogFilePath + " with exception: " + ex);
+                    WriteTraceLine($"Error deleting previous log file w/ path: {LogFilePath} with exception: ",ex);
                 }
             }
 
@@ -141,9 +149,10 @@ namespace MonkeyPaste.Common.Plugin {
             if (pad_post) {
                 sb.AppendLine();
             }
-            if (HasInitialized) {
+            if (IsTraceEnabled) {
                 Trace.Write(sb.ToString());
-            } else {
+            } 
+            if(LogToConsole) {
                 // called from an helper app
                 Console.WriteLine(sb.ToString().TrimEnd());
             }
