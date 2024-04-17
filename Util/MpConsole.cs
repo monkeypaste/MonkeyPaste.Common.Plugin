@@ -36,12 +36,7 @@ namespace MonkeyPaste.Common.Plugin {
 
         #region Public Methods
 
-        public static void Init(object args) {
-            if(args is not object[] argParts ||
-                argParts.Length != 2) {
-                return;
-            }
-
+        public static void Init(string logPath, bool logToConsole) {
             if (HasInitialized) {
                 return;
             }
@@ -51,8 +46,8 @@ namespace MonkeyPaste.Common.Plugin {
             // or bizarre crashes occur. So cefnet creates a temp platform info to setup its logging
             // and then initializes console w/ temp info so in main startup init has already happened 
 
-            LogFilePath = argParts[0] as string;
-            LogToConsole = (bool)argParts[1];
+            LogFilePath = logPath;
+            LogToConsole = logToConsole;
             IsLogEnabled = LogFilePath != null;
 
             if (IsTraceEnabled) {
