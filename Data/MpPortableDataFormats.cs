@@ -67,8 +67,9 @@ namespace MonkeyPaste.Common.Plugin {
         // this formats on dnd from chrome on mac with the toplevel domain url as the content
         public const string MacChromeUrl2 = "org.chromium.chromium-renderer-initiated-drag";
 
-        public const string MacImage1 = "public.png";
-        public const string MacImage2 = "public.tiff";
+        public const string MacImage1 = AvImage;
+        public const string MacImage2 = "public.png";
+        public const string MacImage3 = "public.tiff";
         #endregion
 
         #region Linux
@@ -79,10 +80,11 @@ namespace MonkeyPaste.Common.Plugin {
 
         public const string LinuxHtml = MimeHtml;
 
-        public const string LinuxImage1 = "image/png";
-        public const string LinuxImage2 = "image/bmp";
-        public const string LinuxImage3 = "image/tiff";
-        public const string LinuxImage4 = "image/x-bmp";
+        public const string LinuxImage1 = AvImage;
+        public const string LinuxImage2 = "image/png";
+        public const string LinuxImage3 = "image/bmp";
+        public const string LinuxImage4 = "image/tiff";
+        public const string LinuxImage5 = "image/x-bmp";
 
         public const string LinuxFiles1 = AvFiles;
         public const string LinuxFiles2 = MimeUriList;
@@ -287,14 +289,14 @@ namespace MonkeyPaste.Common.Plugin {
             ];
 
         private static string[] _imageFormats = [
-            LinuxImage1,
             LinuxImage2,
             LinuxImage3,
+            LinuxImage4,
             WinImage1,
             WinImage2,
             WinImage3,
-            MacImage1,
             MacImage2,
+            MacImage3,
             ];
         public static string[] ImageFormats =>
             _imageFormats;
@@ -461,11 +463,11 @@ namespace MonkeyPaste.Common.Plugin {
             if(IsCsvFormat(format) is true) {
                 return "csv";
             }
-            if (format == MacImage2 ||
-                format == LinuxImage3) {
+            if (format == MacImage3 ||
+                format == LinuxImage4) {
                 return "tiff";
             }
-            if(format == LinuxImage2) {
+            if(format == LinuxImage3) {
                 return "bmp";
             }
             if(IsImageFormat(format) is true) {
