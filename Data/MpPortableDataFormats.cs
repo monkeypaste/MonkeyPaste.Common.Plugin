@@ -242,7 +242,7 @@ namespace MonkeyPaste.Common.Plugin {
 #endif
         public const string Xhtml =
 #if WINDOWS
-            WinXhtml;
+            WinHtml1;
 #else
             WinHtml1;
 #endif

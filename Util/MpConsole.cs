@@ -147,10 +147,12 @@ namespace MonkeyPaste.Common.Plugin {
             if (IsTraceEnabled) {
                 Trace.Write(sb.ToString());
             } 
-            if(LogToConsole) {
+           // if(LogToConsole) {
                 // called from an helper app
                 Console.WriteLine(sb.ToString().TrimEnd());
-            }
+                Debug.WriteLine(sb.ToString().TrimEnd());
+                
+            //}
 
         }
 
