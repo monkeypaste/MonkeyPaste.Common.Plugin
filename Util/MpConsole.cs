@@ -21,13 +21,6 @@ namespace MonkeyPaste.Common.Plugin {
 
         public static bool HasInitialized { get; set; } = false;
 
-
-        static bool IsLogEnabled { get; set; }// =>
-                                              //#if DEBUG
-                                              //            true;
-                                              //#else
-                                              //            true;
-                                              //#endif
         static bool IsTraceEnabled =>
             LogFilePath != null && HasInitialized;
         static string LogFilePath { get; set; }
@@ -48,7 +41,6 @@ namespace MonkeyPaste.Common.Plugin {
 
             LogFilePath = logPath;
             LogToConsole = logToConsole;
-            IsLogEnabled = LogFilePath != null;
 
             if (IsTraceEnabled) {
                 if (IsFileInUse(LogFilePath)) {
@@ -66,6 +58,7 @@ namespace MonkeyPaste.Common.Plugin {
                     TextWriterTraceListener twtl = new TextWriterTraceListener(LogFilePath);
                     Trace.Listeners.Add(twtl);
                     Trace.AutoFlush = true;
+                    WriteLine($"Logging enabled to '{LogFilePath}'");
                 }
                 catch (Exception ex) {
                     WriteTraceLine($"Error deleting previous log file w/ path: {LogFilePath} with exception: ",ex);
@@ -146,13 +139,13 @@ namespace MonkeyPaste.Common.Plugin {
             }
             if (IsTraceEnabled) {
                 Trace.Write(sb.ToString());
-            } 
-           // if(LogToConsole) {
-                // called from an helper app
+            }
+            if (LogToConsole) {
                 Console.WriteLine(sb.ToString().TrimEnd());
-                Debug.WriteLine(sb.ToString().TrimEnd());
-                
-            //}
+                if(Debugger.IsAttached) {
+                    Debug.WriteLine(sb.ToString().TrimEnd());
+                }
+            }
 
         }
 
