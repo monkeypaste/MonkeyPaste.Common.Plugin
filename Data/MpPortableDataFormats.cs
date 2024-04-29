@@ -1,14 +1,13 @@
-﻿
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace MonkeyPaste.Common.Plugin {
-
 
     public static class MpPortableDataFormats {
         #region Private Variables
 
-        private static MpIPlatformDataObjectRegistrar _registrar;
         #endregion
 
         #region Constants
@@ -83,8 +82,6 @@ namespace MonkeyPaste.Common.Plugin {
         public const string LinuxImage1 = AvImage;
         public const string LinuxImage2 = "image/png";
         public const string LinuxImage3 = "image/bmp";
-        public const string LinuxImage4 = "image/tiff";
-        public const string LinuxImage5 = "image/x-bmp";
 
         public const string LinuxFiles1 = AvFiles;
         public const string LinuxFiles2 = MimeUriList;
@@ -142,110 +139,81 @@ namespace MonkeyPaste.Common.Plugin {
 
         #region Runtime formats
 
-        public const string Text =
-#if MAC
-            MacText1;
-#elif WINDOWS
-            WinText1;
-#elif LINUX
-            LinuxText1;
-#else
-            AvText;
-#endif
+        public static string Text =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ?
+                MacText1 :
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    WinText1 :
+                    RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ?
+                    LinuxText1 :
+                    AvText;
 
-        public const string Text2 =
-#if WINDOWS
-            WinText2;
-#elif MAC
-            MacText2;
-#elif LINUX
-            LinuxText2;
-#else
-            AvText;
-#endif
-        public const string Text3 =
-#if WINDOWS
-            WinText3;
-#elif MAC
-            MacText3;
-#elif LINUX
-            LinuxText3;
-#else
-            AvText;
-#endif
+        public static string Text2 =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ?
+                MacText2 :
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    WinText2 :
+                    RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ?
+                    LinuxText2 :
+                    AvText;
+        public static string Text3 =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ?
+                MacText3 :
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    WinText3 :
+                    RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ?
+                    LinuxText3 :
+                    AvText;
 
-        public const string Rtf =
-#if WINDOWS
-            WinRtf;
-#elif MAC
-            MacRtf1;
-#else
-            WinRtf;
+        public static string Rtf =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ?
+                MacRtf1 :
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    WinRtf :
+                    WinRtf;
 
-#endif
-        public const string Image =
-#if WINDOWS
-            WinImage1;
-#elif MAC
-            MacImage1;
-#elif LINUX
-            LinuxImage1;
-#else
-            AvImage;
-#endif
+        public static string Image =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ?
+                MacImage1 :
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    WinImage1 :
+                    RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ?
+                        LinuxImage1 :
+                        AvImage;
 
-        public const string Image2 =
-#if WINDOWS
-            WinImage2;
-#elif MAC
-            MacImage2;
-#elif LINUX
-            LinuxImage2;
-#else
-            AvImage;
-#endif
+        public static string Image2 =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ?
+                MacImage2 :
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    WinImage2 :
+                    RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ?
+                        LinuxImage2 :
+                        AvImage;
 
-        public const string Files =
-#if WINDOWS
-            WinFiles1;
-#elif MAC
-            MacFiles1;
-#elif LINUX
-            LinuxFiles1;
-#else
-            AvFiles;
-#endif
+        public static string Files =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ?
+                MacFiles1 :
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    WinFiles1 :
+                    RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ?
+                        LinuxFiles1 :
+                        AvFiles;
 
-        public const string Files2 =
-#if WINDOWS
-            WinFiles2;
-#elif MAC
-            MacFiles2;
-#elif LINUX
-            LinuxFiles2;
-#else
-            AvFiles;
-#endif
-
-        public const string Csv =
-#if WINDOWS
+        public static string Files2 =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ?
+                MacFiles2 :
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    WinFiles2 :
+                    RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ?
+                        LinuxFiles2 :
+                        AvFiles;
+        public static string Csv =>
             WinCsv;
-#else
-            WinCsv;
-#endif
 
-        public const string Html =
-#if WINDOWS
+        public static string Html =>
             MimeHtml;
-#else
-            MimeHtml;
-#endif
-        public const string Xhtml =
-#if WINDOWS
+        public static string Xhtml =>
             WinHtml1;
-#else
-            WinHtml1;
-#endif
 
         #endregion
 
@@ -268,17 +236,23 @@ namespace MonkeyPaste.Common.Plugin {
             WinText3,
             WinText4,
             ];
+        public static IEnumerable<string> PlainTextFormats =>
+            _plainTextFormats.Distinct();
 
         private static string[] _rtfFormats = [
             MacRtf1,
             MacRtf2,
             WinRtf,
             ];
+        public static IEnumerable<string> RtfFormats =>
+            _rtfFormats.Distinct();
 
         private static string[] _csvFormats = [
             WinCsv,
             ];
 
+        public static IEnumerable<string> CsvFormats =>
+            _csvFormats.Distinct();
         private static string[] _htmlFormats = [
             LinuxHtml,
             MacHtml1,
@@ -288,18 +262,27 @@ namespace MonkeyPaste.Common.Plugin {
             WinHtml2,
             ];
 
+        public static IEnumerable<string> HtmlFormats =>
+            _htmlFormats.Distinct();
+        public static IEnumerable<string> TextFormats =>
+            // NOTE these are ordered from least to highest 'fidelity' as for rendering priority:
+            // text,csv,rtf,html
+            _plainTextFormats
+            .Union(_csvFormats)
+            .Union(_rtfFormats)
+            .Union(_htmlFormats);
+
         private static string[] _imageFormats = [
+            AvImage,
             LinuxImage2,
             LinuxImage3,
-            LinuxImage4,
-            WinImage1,
             WinImage2,
             WinImage3,
             MacImage2,
             MacImage3,
             ];
-        public static string[] ImageFormats =>
-            _imageFormats;
+        public static IEnumerable<string> ImageFormats =>
+            _imageFormats.Distinct();
 
         private static string[] _fileFormats = [
             LinuxFiles2,
@@ -308,19 +291,11 @@ namespace MonkeyPaste.Common.Plugin {
             MacFiles3,
             WinFiles2
             ];
-
-        private static IEnumerable<string> _textFormats =>
-            // NOTE these are ordered from least to highest 'fidelity' as for rendering priority:
-            // text,csv,rtf,html
-            _plainTextFormats
-            .Union(_csvFormats)
-            .Union(_rtfFormats)
-            .Union(_htmlFormats);
+        public static IEnumerable<string> FileFormats =>
+            _fileFormats.Distinct();
 
         static string[] _AllInternalFormats = [
-#if !LINUX
-		                INTERNAL_SOURCE_URI_LIST_FORMAT,  
-#endif
+                        INTERNAL_SOURCE_URI_LIST_FORMAT,
                         INTERNAL_CONTENT_ID_FORMAT,
                         INTERNAL_CONTENT_PARTIAL_HANDLE_FORMAT,
                         INTERNAL_CONTENT_TITLE_FORMAT,
@@ -340,173 +315,23 @@ namespace MonkeyPaste.Common.Plugin {
                         INTERNAL_HTML_TO_RTF_FORMAT,
                         INTERNAL_DATA_OBJECT_SOURCE_TYPE_FORMAT
                     ];
-        #endregion
-
-        #region Properties
-
-        public static string[] SortedTextFormats =>
-            _textFormats.Distinct().ToArray();
-
-        private static Dictionary<string,int> _regReaderLookup = new Dictionary<string,int>();
-        public static IEnumerable<string> RegisteredReaderFormats =>
-            _regReaderLookup.Where(x=>x.Value > 0).Select(x=>x.Key);
-
-        private static Dictionary<string,int> _regWriterLookup = new Dictionary<string,int>();
-        public static IEnumerable<string> RegisteredWriterFormats =>
-            _regWriterLookup.Where(x=>x.Value > 0).Select(x=>x.Key);
-
-
-        private static List<string> _regInternalFormats = [];
-        public static IReadOnlyList<string> RegisteredInternalFormats =>
-            _regInternalFormats;
-        public static IEnumerable<string> RegisteredFormats =>
-            RegisteredReaderFormats
-            .Union(RegisteredWriterFormats)
-            .Union(RegisteredInternalFormats)
-            .Distinct();
-
-        #endregion
-
-        #region Public Methods
-
-        public static void Init(MpIPlatformDataObjectRegistrar registrar) {
-            _registrar = registrar;
-
-            _regWriterLookup.Clear();
-            _regReaderLookup.Clear();
-
-            foreach (string formatName in _AllInternalFormats) {
-                RegisterDataFormat(formatName, false, false);
-            }
-        }
-
-        public static void RegisterDataFormat(string format, bool isReader, bool isWriter) {
-            int result = -1;
-            if(isReader) {
-                result = Register_internal(_regReaderLookup, format);
-            }
-            if(isWriter) {
-                result = Register_internal(_regWriterLookup, format);
-            }
-
-            if (!isReader && !isWriter) {
-                // NOTE this should only happen for internal formats
-                if (!_AllInternalFormats.Contains(format)) {
-#if DEBUG
-                    throw new System.Exception($"Non-internal format registration mismatch for '{format}'");
-#endif
-                } else if (!_regInternalFormats.Contains(format)) {
-                    _regInternalFormats.Add(format);
+        public static IEnumerable<string> AllInternalFormats {
+            get {
+                if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
+                    return _AllInternalFormats.Distinct().Where(x => x != INTERNAL_SOURCE_URI_LIST_FORMAT);
                 }
+                return _AllInternalFormats.Distinct();
             }
-            MpConsole.WriteLine($"Format '{format}' IsReader: {isReader} IsWriter: {isWriter} REGISTERED ({result})");
         }
-        public static void UnregisterDataFormat(string format, bool isReader, bool isWriter) {
-            int result = -1;
-            if (isReader) {
-                result = UnregisterFromLookup(_regReaderLookup, format);
-            }
-            if (isWriter) {
-                result = UnregisterFromLookup(_regWriterLookup, format);
-            }
-            MpConsole.WriteLine($"Format '{format}' IsReader: {isReader} IsWriter: {isWriter} UNREGISTERED ({result})");
-        }
+        #endregion
 
-        public static bool IsTextFormat(string format) {
-            return SortedTextFormats.Contains(format);
-        }
-        public static bool IsPlainTextFormat(string format) {
-            return _plainTextFormats.Contains(format);
-        }
-        
-        public static bool IsRtfFormat(string format) {
-            return _rtfFormats.Contains(format);
-        }
-        
-        public static bool IsCsvFormat(string format) {
-            return _csvFormats.Contains(format);
-        }
-        public static bool IsHtmlFormat(string format) {
-            return _htmlFormats.Contains(format);
-        }
-        public static bool IsImageFormat(string format) {
-            return _imageFormats.Contains(format);
-        }
-        
-        public static bool IsFilesFormat(string format) {
-            return _fileFormats.Contains(format);
-        }
-        
-        public static bool IsFormatStrBase64(string format) {
-            if(IsImageFormat(format) is true ||
-                format == CefAsciiUrl) {
-                return true;
-            }
-            return false;
-        }
-        public static bool IsAvaloniaFormat(string format) {
-            return
-                format == AvFiles ||
-                format == AvImage ||
-                format == AvText;
-        }
-        public static string GetDefaultFileExt(string format) {
-            if(IsPlainTextFormat(format) is true) {
-                return "txt";
-            }
-            if (IsHtmlFormat(format) is true) {
-                return "html";
-            }
-            if(IsRtfFormat(format) is true) {
-                return "rtf";
-            }
-            if(IsCsvFormat(format) is true) {
-                return "csv";
-            }
-            if (format == MacImage3 ||
-                format == LinuxImage4) {
-                return "tiff";
-            }
-            if(format == LinuxImage3) {
-                return "bmp";
-            }
-            if(IsImageFormat(format) is true) {
-                return "png";
-            }
-            // fallback to txt
-            return "txt";
-        }
+        #region Properties       
+        #endregion
+
+        #region Public Methods        
         #endregion
 
         #region Private Methods
-
-        private static int UnregisterFromLookup(Dictionary<string, int> lookup, string format) {
-            if (!lookup.TryGetValue(format, out int reg_count)) {
-                return 0;
-            }
-            reg_count--;
-            if (reg_count <= 0) {
-                lookup.Remove(format);
-            } else {
-                lookup[format] = reg_count;
-            }
-            return reg_count;
-        }
-        private static int Register_internal(Dictionary<string, int> lookup, string format) {
-            if (!lookup.TryGetValue(format, out int reg_count)) {
-                reg_count = 1;
-                lookup.Add(format, 0);
-                if (_registrar != null) {
-                    // pretty sure registering is only needed for win32 c++ but just keeping it
-                    int id = _registrar.RegisterFormat(format);
-                }
-            } else {
-                reg_count++;
-            }
-            lookup[format] = reg_count;
-
-            return reg_count;
-        }
         #endregion
     }
 }
