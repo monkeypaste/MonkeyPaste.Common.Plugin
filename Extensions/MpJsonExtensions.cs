@@ -24,7 +24,8 @@ namespace MonkeyPaste.Common.Plugin {
                 return JsonConvert.SerializeObject(obj, settings);
             }
             catch (Exception ex) {
-                MpConsole.WriteTraceLine($"Error serializing type '{obj.GetType()}'.", ex);
+                Console.WriteLine($"Error serializing type '{obj.GetType()}':");
+                Console.WriteLine(ex.ToString());
                 return string.Empty;
             }
         }
@@ -39,7 +40,8 @@ namespace MonkeyPaste.Common.Plugin {
                     return JsonConvert.DeserializeObject<T>(objStr);
                 }
                 catch (Exception ex) {
-                    MpConsole.WriteTraceLine("Error deserializing str: " + objStr, ex);
+                    Console.WriteLine($"Error deserializing str: {objStr}");
+                    Console.WriteLine(ex.ToString());
                 }
 
             }
@@ -52,17 +54,12 @@ namespace MonkeyPaste.Common.Plugin {
         private static T DeserializeBase64Object_internal<T>(object obj, Encoding enc = null) where T : new() {
             if (obj is string objBase64Str && !string.IsNullOrWhiteSpace(objBase64Str)) {
                 try {
-
-                    //byte[] bytes = Convert.FromBase64String(objBase64Str);
-                    //enc = enc == null ? Encoding.UTF8 : enc;
-                    //string objStr = enc.GetString(bytes, 0, bytes.Length);
-
-                    // NOTE ignoring encoding since string is base 64
                     string objStr = objBase64Str.ToStringFromBase64(enc);
                     return objStr.DeserializeObject<T>();
                 }
                 catch (Exception ex) {
-                    MpConsole.WriteTraceLine("Error deserializing base64 str: " + objBase64Str, ex);
+                    Console.WriteLine($"Error deserializing base64 str: {objBase64Str}");
+                    Console.WriteLine(ex.ToString());
                 }
             }
             return new T();

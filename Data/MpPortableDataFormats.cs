@@ -1,212 +1,101 @@
-﻿
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace MonkeyPaste.Common.Plugin {
-
 
     public static class MpPortableDataFormats {
         #region Private Variables
 
-        private static MpIPlatformDataObjectRegistrar _registrar;
-
-        private static List<string> _AllFormats;
-        static List<string> AllFormats {
-            get {
-                if(_AllFormats == null) {
-                    _AllFormats = new string[] {
-                        WinText,
-                        WinXaml,
-                        WinXamlPackage,
-                        WinUnicode,
-                        WinOEMText,
-                        AvFiles,
-                        AvImage,
-                        WinCsv,
-                        WinBitmap,
-                        WinDib,
-                        WinRtf,
-                        WinXhtml,
-                        WinFileDrop,
-                        MacRtf1,
-                        MacRtf2,
-                        MacText1,
-                        MacText2,
-                        MacText3,
-                        MacHtml1,
-                        MacHtml2,
-                        MacFiles1,
-                        MacFiles2,
-                        MacUrl,
-                        MacUrl2,
-                        MacChromeUrl,
-                        MacChromeUrl2,
-                        MacImage1,
-                        MacImage2,
-                        CefAsciiUrl,
-                        MimeHtml,
-                        MimeText,
-                        MimeJson,
-                        MimeMozUrl,
-                        MimeUriList,
-                        MimeGnomeFiles }
-                    .Distinct()
-                    .ToList();
-                }
-                return _AllFormats;
-            }
-        }
-            
-
-        private static string[] _defaultFormatNames = [
-
-            // windows
-
-            Text,
-            //Rtf,
-            WinXaml,
-            WinXamlPackage,
-            //Html,
-            Csv,
-            //Unicode,
-            //OemText,
-            //FileDrop,
-            //WinBitmap,
-            //WinDib,
-#if MAC
-            MacRtf1,
-            MacRtf2,
-            MacText1,
-            MacText2,
-            MacText3,
-            MacFiles2,
-            MacChromeUrl,
-            MacChromeUrl2,
-#endif
-
-            // linux
-
-            MimeMozUrl,
-            MimeGnomeFiles,
-            MimeUriList, 
-
-            // avalonia
-
-            Rtf,
-            Xhtml,
-            Files,
-            Image,
-
-            // cef
-
-            Html,
-            MimeText,
-            MimeJson,
-            CefAsciiUrl,
-            //CefUnicodeUrl,
-
-            // internal
-            INTERNAL_SOURCE_URI_LIST_FORMAT, // maps to LinuxUriList            
-            INTERNAL_CONTENT_PARTIAL_HANDLE_FORMAT,
-            INTERNAL_CONTENT_TITLE_FORMAT,
-            INTERNAL_CONTENT_ROI_FORMAT,
-            INTERNAL_CONTENT_ANNOTATION_FORMAT,
-            INTERNAL_CONTENT_DELTA_FORMAT,
-            INTERNAL_PARAMETER_REQUEST_FORMAT,
-            INTERNAL_SEARCH_CRITERIA_ITEM_FORMAT,
-            INTERNAL_TAG_ITEM_FORMAT,
-            INTERNAL_CONTENT_TYPE_FORMAT,
-            INTERNAL_ACTION_ITEM_FORMAT,
-            INTERNAL_PROCESS_INFO_FORMAT,
-            INTERNAL_FILE_LIST_FRAGMENT_FORMAT,
-            INTERNAL_CONTENT_ID_FORMAT,
-            INTERNAL_DATA_OBJECT_SOURCE_TYPE_FORMAT
-        ];
-
-        private static string[] _textFormats = [
-            // NOTE these are ordered from least to highest 'fidelity' as for rendering priority
-            MimeText,
-            WinText,
-            MacText3,
-            WinOEMText,
-            MacText1,
-            MacText2,
-            WinUnicode,
-            WinCsv,
-            MacRtf1,
-            MacRtf2,
-            WinRtf,
-            MacHtml1,
-            MacHtml2,
-            WinXhtml,
-            MimeHtml,
-            ];
-        
-        private static string[] _htmlFormats = [
-            MacHtml1,
-            MacHtml2,
-            WinXhtml,
-            MimeHtml,
-            ];
-        
-        private static string[] _imageFormats = [
-            AvImage,
-            WinBitmap,
-            WinDib,
-            MacImage1,
-            MacImage2,
-            ];
-        
-        private static string[] _fileFormats = [
-            AvFiles,
-            MacFiles1,
-            MacFiles2,
-            WinFileDrop
-            ];
         #endregion
 
         #region Constants
 
-        #region Windows Formats
-        public const string WinText = "Text";
-        public const string WinXaml = "Xaml";
-        public const string WinXamlPackage = "XamlPackage";
-        public const string WinUnicode = "Unicode";
-        public const string WinOEMText = "OEMText";
+        #region Avalonia Formats
+
         public const string AvFiles = "Files";
         public const string AvImage = "PNG";
+        public const string AvText = "Text";
 
+        #endregion
+
+        #region Windows Formats
+        public const string WinText1 = AvText;
+        public const string WinText2 = MimeText;
+        public const string WinText3 = "Unicode";
+        public const string WinText4 = "OEMText";
+
+        public const string WinHtml1 = "HTML Format";
+        public const string WinHtml2 = MimeHtml;
+
+        public const string WinRtf = "Rich Text Format";
 
         public const string WinCsv = "CSV";
-        public const string WinBitmap = "Bitmap";
-        public const string WinDib = "DeviceIndependentBitmap";
-        public const string WinRtf = "Rich Text Format";
-        public const string WinXhtml = "HTML Format";
-        public const string WinFileDrop = "FileDrop";
+
+        public const string WinXaml = "Xaml";
+        public const string WinXamlPackage = "XamlPackage";
+
+        public const string WinFiles1 = AvFiles;
+        public const string WinFiles2 = "FileDrop";
+
+        public const string WinImage1 = AvImage;
+        public const string WinImage2 = "Bitmap";
+        public const string WinImage3 = "DeviceIndependentBitmap";
         #endregion
 
         #region Mac Formats
         public const string MacRtf1 = "public.rtf";
         public const string MacRtf2 = "com.apple.flat-rtfd";
 
-        public const string MacText1 = "public.utf8-plain-text";
-        public const string MacText2 = "public.utf16-external-plain-text";
-        public const string MacText3 = "public.plain-text";
+        public const string MacText1 = AvText;
+        public const string MacText2 = "public.utf8-plain-text";
+        public const string MacText3 = "public.utf16-external-plain-text";
+        public const string MacText4 = "public.plain-text";
 
         public const string MacHtml1 = "public.html";
         public const string MacHtml2 = "Apple HTML pasteboard type";
 
-        public const string MacFiles1 = "public.file-url";
-        public const string MacFiles2 = "NSFilenamesPboardType";
+        public const string MacFiles1 = AvFiles;
+        public const string MacFiles2 = "public.file-url";
+        public const string MacFiles3 = "NSFilenamesPboardType";
 
-        public const string MacUrl = "public.url";
+        public const string MacUrl1 = "public.url";
         public const string MacUrl2 = "com.apple.webarchive";
-        public const string MacChromeUrl = "org.chromium.source-url";
+        public const string MacChromeUrl1 = "org.chromium.source-url";
         // this formats on dnd from chrome on mac with the toplevel domain url as the content
         public const string MacChromeUrl2 = "org.chromium.chromium-renderer-initiated-drag";
 
-        public const string MacImage1 = "public.png";
-        public const string MacImage2 = "public.tiff";
+        public const string MacImage1 = AvImage;
+        public const string MacImage2 = "public.png";
+        public const string MacImage3 = "public.tiff";
+        #endregion
+
+        #region Linux
+        public const string LinuxText1 = AvText;
+        public const string LinuxText2 = MimeText;
+        public const string LinuxText3 = "text/unicode";
+        public const string LinuxText4 = "UTF8_STRING";
+
+        public const string LinuxHtml = MimeHtml;
+
+        public const string LinuxImage1 = AvImage;
+        public const string LinuxImage2 = "image/png";
+        public const string LinuxImage3 = "image/bmp";
+
+        public const string LinuxFiles1 = AvFiles;
+        public const string LinuxFiles2 = MimeUriList;
+        public const string LinuxFiles3 = "x-special/gnome-copied-files";
+
+        #endregion
+
+        #region Mime (inter-platform) formats
+        public const string MimeHtml = "text/html";
+        public const string MimeText = "text/plain";
+        public const string MimeJson = "application/json";
+
+        public const string MimeMozUrl = "text/x-moz-url-priv";
+        public const string MimeUriList = "text/uri-list";
         #endregion
 
         #region Cef Formats
@@ -215,17 +104,6 @@ namespace MonkeyPaste.Common.Plugin {
         //public const string CefUnicodeUrl = "UniformResourceLocatorW";
         public const string CefAsciiUrl = "UniformResourceLocator";
 
-        #endregion
-
-        #region mime formats
-        public const string MimeHtml = "text/html";
-        public const string MimeText = "text/plain";
-        public const string MimeJson = "application/json";
-
-        public const string MimeMozUrl = "text/x-moz-url-priv";
-        public const string MimeUriList = "text/uri-list";
-        // Linux (gnome) only
-        public const string MimeGnomeFiles = "x-special/gnome-copied-files";
         #endregion
 
         #region Internal Formats
@@ -260,250 +138,200 @@ namespace MonkeyPaste.Common.Plugin {
         #endregion
 
         #region Runtime formats
-        public const string Text =
-#if MAC
-            AvText;//MacText1;
-#else
-            WinText;//WinText;
-#endif
 
-        public const string Text2 =
-#if WINDOWS
-            WinUnicode;
-#else
-            MacText2;
-#endif
-        public const string Text3 =
-#if WINDOWS
-            WinOEMText;
-#else
-            MacText3;
-#endif
+        public static string Text =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ?
+                MacText1 :
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    WinText1 :
+                    RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ?
+                    LinuxText1 :
+                    AvText;
 
-        public const string Rtf =
-#if WINDOWS
-            WinRtf;
-#else
-            WinRtf;//MacRtf1;
-#endif
-        public const string Image =
-#if WINDOWS
-            AvImage;//WinImage;
-#else
-            AvImage;//MacImage1;
-#endif
+        public static string Text2 =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ?
+                MacText2 :
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    WinText2 :
+                    RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ?
+                    LinuxText2 :
+                    AvText;
+        public static string Text3 =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ?
+                MacText3 :
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    WinText3 :
+                    RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ?
+                    LinuxText3 :
+                    AvText;
 
-        public const string Image2 =
-#if WINDOWS
-            WinBitmap;
-#else
-            MacImage2;
-#endif
+        public static string Rtf =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ?
+                MacRtf1 :
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    WinRtf :
+                    WinRtf;
 
-        public const string Files =
-#if WINDOWS
-            AvFiles;//WinFiles;
-#else
-            AvFiles;//MacFiles1;
-#endif
-        public const string Csv =
-#if WINDOWS
+        public static string Image =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ?
+                MacImage1 :
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    WinImage1 :
+                    RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ?
+                        LinuxImage1 :
+                        AvImage;
+
+        public static string Image2 =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ?
+                MacImage2 :
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    WinImage2 :
+                    RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ?
+                        LinuxImage2 :
+                        AvImage;
+
+        public static string Files =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ?
+                MacFiles1 :
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    WinFiles1 :
+                    RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ?
+                        LinuxFiles1 :
+                        AvFiles;
+
+        public static string Files2 =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ?
+                MacFiles2 :
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    WinFiles2 :
+                    RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ?
+                        LinuxFiles2 :
+                        AvFiles;
+        public static string Csv =>
             WinCsv;
-#else
-            WinCsv;
-#endif
 
-        public const string Html =
-#if WINDOWS
+        public static string Html =>
             MimeHtml;
-#else
-            MimeHtml;
-#endif
-        public const string Xhtml =
-#if WINDOWS
-            WinXhtml;
-#else
-            WinXhtml;
-#endif
+        public static string Xhtml =>
+            WinHtml1;
+
         #endregion
 
         #endregion
 
-        #region Statics
+        #region Format Groups
 
-        public static string[] InternalFormats = [
-            INTERNAL_SOURCE_URI_LIST_FORMAT,
-            INTERNAL_CONTENT_ID_FORMAT,
-            INTERNAL_CONTENT_PARTIAL_HANDLE_FORMAT,
-            INTERNAL_CONTENT_TITLE_FORMAT,
-            INTERNAL_CONTENT_ROI_FORMAT,
-            INTERNAL_CONTENT_ANNOTATION_FORMAT,
-            INTERNAL_CONTENT_DELTA_FORMAT,
-            INTERNAL_PARAMETER_REQUEST_FORMAT,
-            INTERNAL_SEARCH_CRITERIA_ITEM_FORMAT,
-            INTERNAL_TAG_ITEM_FORMAT,
-            INTERNAL_DATA_OBJECT_FORMAT,
-            INTERNAL_CONTENT_TYPE_FORMAT,
-            INTERNAL_ACTION_ITEM_FORMAT,
-            INTERNAL_PROCESS_INFO_FORMAT,
-            INTERNAL_PARAMETER_VALUE_FORMAT,
-            INTERNAL_FILE_LIST_FRAGMENT_FORMAT,
-            INTERNAL_RTF_TO_HTML_FORMAT,
-            INTERNAL_HTML_TO_RTF_FORMAT,
-            INTERNAL_DATA_OBJECT_SOURCE_TYPE_FORMAT
-        ];
+
+        private static string[] _plainTextFormats = [
+            LinuxText2,
+            LinuxText3,
+            LinuxText4,
+            MacText1,
+            MacText2,
+            MacText3,
+            MacText4,
+            MimeText,
+            WinText1,
+            WinText2,
+            WinText3,
+            WinText4,
+            ];
+        public static IEnumerable<string> PlainTextFormats =>
+            _plainTextFormats.Distinct();
+
+        private static string[] _rtfFormats = [
+            MacRtf1,
+            MacRtf2,
+            WinRtf,
+            ];
+        public static IEnumerable<string> RtfFormats =>
+            _rtfFormats.Distinct();
+
+        private static string[] _csvFormats = [
+            WinCsv,
+            ];
+
+        public static IEnumerable<string> CsvFormats =>
+            _csvFormats.Distinct();
+        private static string[] _htmlFormats = [
+            LinuxHtml,
+            MacHtml1,
+            MacHtml2,
+            MimeHtml,
+            WinHtml1,
+            WinHtml2,
+            ];
+
+        public static IEnumerable<string> HtmlFormats =>
+            _htmlFormats.Distinct();
+        public static IEnumerable<string> TextFormats =>
+            // NOTE these are ordered from least to highest 'fidelity' as for rendering priority:
+            // text,csv,rtf,html
+            _plainTextFormats
+            .Union(_csvFormats)
+            .Union(_rtfFormats)
+            .Union(_htmlFormats);
+
+        private static string[] _imageFormats = [
+            AvImage,
+            LinuxImage2,
+            LinuxImage3,
+            WinImage2,
+            WinImage3,
+            MacImage2,
+            MacImage3,
+            ];
+        public static IEnumerable<string> ImageFormats =>
+            _imageFormats.Distinct();
+
+        private static string[] _fileFormats = [
+            LinuxFiles2,
+            LinuxFiles2,
+            MacFiles2,
+            MacFiles3,
+            WinFiles2
+            ];
+        public static IEnumerable<string> FileFormats =>
+            _fileFormats.Distinct();
+
+        static string[] _AllInternalFormats = [
+                        INTERNAL_SOURCE_URI_LIST_FORMAT,
+                        INTERNAL_CONTENT_ID_FORMAT,
+                        INTERNAL_CONTENT_PARTIAL_HANDLE_FORMAT,
+                        INTERNAL_CONTENT_TITLE_FORMAT,
+                        INTERNAL_CONTENT_ROI_FORMAT,
+                        INTERNAL_CONTENT_ANNOTATION_FORMAT,
+                        INTERNAL_CONTENT_DELTA_FORMAT,
+                        INTERNAL_PARAMETER_REQUEST_FORMAT,
+                        INTERNAL_SEARCH_CRITERIA_ITEM_FORMAT,
+                        INTERNAL_TAG_ITEM_FORMAT,
+                        INTERNAL_DATA_OBJECT_FORMAT,
+                        INTERNAL_CONTENT_TYPE_FORMAT,
+                        INTERNAL_ACTION_ITEM_FORMAT,
+                        INTERNAL_PROCESS_INFO_FORMAT,
+                        INTERNAL_PARAMETER_VALUE_FORMAT,
+                        INTERNAL_FILE_LIST_FRAGMENT_FORMAT,
+                        INTERNAL_RTF_TO_HTML_FORMAT,
+                        INTERNAL_HTML_TO_RTF_FORMAT,
+                        INTERNAL_DATA_OBJECT_SOURCE_TYPE_FORMAT
+                    ];
+        public static IEnumerable<string> AllInternalFormats {
+            get {
+                if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
+                    return _AllInternalFormats.Distinct().Where(x => x != INTERNAL_SOURCE_URI_LIST_FORMAT);
+                }
+                return _AllInternalFormats.Distinct();
+            }
+        }
         #endregion
 
-        #region Properties
-
-        public static string[] SortedTextFormats =>
-            _textFormats;
-
-        private static List<string> _formatLookup = new List<string>();
-        public static IEnumerable<string> RegisteredFormats =>
-            _formatLookup;
-
+        #region Properties       
         #endregion
 
-        #region Public Methods
+        #region Public Methods        
+        #endregion
 
-        public static void Init(MpIPlatformDataObjectRegistrar registrar) {
-            _registrar = registrar;
-
-            _formatLookup.Clear();
-
-            foreach (string formatName in _defaultFormatNames) {
-                RegisterDataFormat(formatName);
-            }
-        }
-
-        public static void RegisterDataFormat(string format) {
-            if (_formatLookup.Contains(format)) {
-                return;
-            }
-            // pretty sure registering is only needed for win32 c++ but just keeping it
-            if(_registrar != null) {
-                int id = _registrar.RegisterFormat(format);
-            }
-            _formatLookup.Add(format);
-            if(!AllFormats.Contains(format)) {
-                AllFormats.Add(format);
-            }
-            //MpConsole.WriteLine($"Successfully registered format name:'{format}' id:{id}");
-        }
-
-        public static void UnregisterDataFormat(string format) {
-            _formatLookup.Remove(format);
-        }
-
-        public static bool? IsTextFormat(string format) {
-            // returns null if unknwon (not found)
-            if(AllFormats.FirstOrDefault(x=>x.ToLowerInvariant() == format.ToLowerInvariant()) is not string found_format) {
-                return null;
-            }
-            return SortedTextFormats.Contains(format);
-        }
-        public static bool? IsPlainTextFormat(string format) {
-            // returns null if unknwon (not found)
-            if(AllFormats.FirstOrDefault(x=>x.ToLowerInvariant() == format.ToLowerInvariant()) is not string found_format) {
-                return null;
-            }
-            switch(found_format) {
-                case MacText1:
-                case MacText2:
-                case MacText3:
-                case WinText:
-                case WinOEMText:
-                case MimeText:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-        
-        public static bool? IsRtfFormat(string format) {
-            // returns null if unknwon (not found)
-            if(AllFormats.FirstOrDefault(x=>x.ToLowerInvariant() == format.ToLowerInvariant()) is not string found_format) {
-                return null;
-            }
-            switch(found_format) {
-                case MacRtf1:
-                case MacRtf2:
-                case WinRtf:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-        
-        public static bool? IsCsvFormat(string format) {
-            // returns null if unknwon (not found)
-            if(AllFormats.FirstOrDefault(x=>x.ToLowerInvariant() == format.ToLowerInvariant()) is not string found_format) {
-                return null;
-            }
-            switch(found_format) {
-                case WinCsv:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-        public static bool? IsHtmlFormat(string format) {
-            // returns null if unknwon (not found)
-            if(AllFormats.FirstOrDefault(x=>x.ToLowerInvariant() == format.ToLowerInvariant()) is not string found_format) {
-                return null;
-            }
-            return _htmlFormats.Contains(found_format);
-        }
-        public static bool? IsImageFormat(string format) {
-            // returns null if unknwon (not found)
-            if(AllFormats.FirstOrDefault(x=>x.ToLowerInvariant() == format.ToLowerInvariant()) is not string found_format) {
-                return null;
-            }
-            return _imageFormats.Contains(found_format);
-        }
-        
-        public static bool? IsFilesFormat(string format) {
-            // returns null if unknwon (not found)
-            if(AllFormats.FirstOrDefault(x=>x.ToLowerInvariant() == format.ToLowerInvariant()) is not string found_format) {
-                return null;
-            }
-            return _fileFormats.Contains(found_format);
-        }
-        
-        public static bool? IsFormatStrBase64(string format) {
-            // returns null if unknwon (not found)
-            if(AllFormats.FirstOrDefault(x=>x.ToLowerInvariant() == format.ToLowerInvariant()) is not string found_format) {
-                return null;
-            }
-            if(IsImageFormat(format) is true ||
-                format == CefAsciiUrl) {
-                return true;
-            }
-            return false;
-        }
-        public static string GetDefaultFileExt(string format) {
-            if(IsPlainTextFormat(format) is true) {
-                return "txt";
-            }
-            if (IsHtmlFormat(format) is true) {
-                return "html";
-            }
-            if(IsRtfFormat(format) is true) {
-                return "rtf";
-            }
-            if(IsCsvFormat(format) is true) {
-                return "csv";
-            }
-            if (format == MacImage2) {
-                return "tiff";
-            }
-            if(IsImageFormat(format) is true) {
-                return "png";
-            }
-            // fallback to txt
-            return "txt";
-        }
+        #region Private Methods
         #endregion
     }
 }
