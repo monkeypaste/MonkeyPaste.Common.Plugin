@@ -7,6 +7,6 @@ namespace MonkeyPaste.Common.Plugin {
         Task ClearAsync();
         Task<object> GetDataAsync(string format);
         Task<string[]> GetFormatsAsync();
-        Task SetDataObjectAsync(Dictionary<string, object> data);
+        Task SetDataObjectAsync(Dictionary<string, object> ido);
     }
 }

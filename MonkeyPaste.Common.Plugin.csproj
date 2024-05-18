@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Platforms>$(DefaultPlatforms)</Platforms>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Title>MonkeyPaste.Common.Plugin</Title>
     <Authors>Monkey</Authors>
     <Product>MonkeyPaste</Product>
@@ -25,6 +24,7 @@
       <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
     </ItemGroup>
   </Target>
+  
   <ItemGroup>
     <Compile Remove="doxygen\**" />
     <EmbeddedResource Remove="doxygen\**" />
