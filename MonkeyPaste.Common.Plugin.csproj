@@ -1,10 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <LangVersion>$(DefaultLangVersion)</LangVersion>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)\_nuget</PackageOutputPath>
     <Title>MonkeyPaste.Common.Plugin</Title>
     <Authors>Monkey</Authors>
     <Product>MonkeyPaste</Product>
+    <PackageIcon>icon.png</PackageIcon>
     <Description>The minimum requirement to create MonkeyPaste plugins.</Description>
     <PackageProjectUrl>https://github.com/monkeypaste/MonkeyPaste.Common.Plugin</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
@@ -12,8 +18,8 @@
     <PackageTags>monkeypaste, monkey, clipboard, copy, paste, drag, drop, netstandard, net, plugin, extension</PackageTags>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <LangVersion>$(DefaultLangVersion)</LangVersion>
-    <Version>1.0.2.0</Version>
+    <Version>$(MpCommonPluginVersion)</Version>
+    <NuGetAudit>false</NuGetAudit>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -39,7 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" PrivateAssets="All" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
