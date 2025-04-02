@@ -128,6 +128,7 @@ namespace MonkeyPaste.Common.Plugin {
         public const string INTERNAL_FILE_LIST_FRAGMENT_FORMAT = "Mp Internal File List Fragment Format";
         public const string INTERNAL_RTF_TO_HTML_FORMAT = "Mp Internal RTF To HTML Content Type";
         public const string INTERNAL_HTML_TO_RTF_FORMAT = "Mp Internal HTML To RTF Content Type";
+        public const string INTERNAL_CONTENT_UTC_TIMESTAMP_FORMAT = "Mp Internal UTC TIMESTAP Format";
 
 
         // NOTE data object is not registered and only used to merge data objects
